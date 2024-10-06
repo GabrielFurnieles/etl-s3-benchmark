@@ -1,0 +1,19 @@
+[project]
+name = "etl-s3-benchmark"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "boto3>=1.35.34",
+    "pytest>=8.3.3",
+    "python-decouple>=3.8",
+    "typer>=0.12.5",
+]
+
+[project.scripts]
+etl-s3-benchmark = "etl_s3_benchmark.__main__:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
