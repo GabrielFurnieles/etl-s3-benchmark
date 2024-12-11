@@ -2,6 +2,12 @@ import boto3
 from decouple import config
 from .config import S3_ENDPOINT, S3_REGION, BUCKET_NAME
 
+# NOTE. Parse cs.AI 2024 PDFs
+# NOTE. Get from the PDF:
+#   - num_pages
+#   - num_references
+#   - parse references -> In cas reference doesn't exist in DB fetch it in metadata.json
+
 
 def list_objects():
     # Create a session without credentials for public access

@@ -1,0 +1,43 @@
+name: PostgreSQL Benchmark Workflow
+
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: benchmark_db  # Database name
+          POSTGRES_USER: benchmark_user  # Username
+          POSTGRES_PASSWORD: benchmark_password  # Password
+        options: >-
+          --health-cmd "pg_isready -U benchmark_user"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          echo "Waiting for PostgreSQL to be ready..."
+          until pg_isready -h localhost -U benchmark_user; do
+            sleep 1
+          done
+
+      - name: Run Benchmark
+        run: |
+          echo "Running benchmark..."
+          # Replace the following command with your actual benchmark command
+          # For example, you could run a script that connects to the database and performs benchmarks
+          psql -h localhost -U benchmark_user -d benchmark_db -c "SELECT 1;"  # Example query
